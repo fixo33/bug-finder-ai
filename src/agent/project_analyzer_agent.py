@@ -7,7 +7,8 @@ de proyectos de desarrollo, leer archivos y proporcionar descripciones detallada
 
 import os
 from typing import Dict, List, Any, TypedDict, Annotated
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
@@ -66,8 +67,8 @@ class ProjectAnalyzerAgent:
             raise ValueError("Se requiere OPENAI_API_KEY como parámetro o variable de entorno")
         
         # Inicializar el modelo de lenguaje
-        self.llm = ChatOpenAI(
-            model="gpt-4.1-nano-2025-04-14",
+        self.llm = ChatGoogleGenerativeAI(
+            model="gemini-2.0-flash",
             temperature=0.1
         )
         
