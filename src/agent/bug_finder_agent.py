@@ -206,10 +206,22 @@ Sé específico y detallado en tu análisis."""
                 ]
             })
             
+            # Extraer el contenido del último mensaje
+            if "messages" in result and result["messages"]:
+                last_message = result["messages"][-1]
+                if hasattr(last_message, 'content'):
+                    analysis_content = last_message.content
+                elif isinstance(last_message, dict) and "content" in last_message:
+                    analysis_content = last_message["content"]
+                else:
+                    analysis_content = str(last_message)
+            else:
+                analysis_content = str(result)
+            
             return {
                 "success": True,
                 "file_path": file_path,
-                "analysis": result["messages"][-1]["content"],
+                "analysis": analysis_content,
                 "raw_result": result
             }
             
