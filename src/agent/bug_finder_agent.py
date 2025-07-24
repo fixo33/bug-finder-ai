@@ -12,6 +12,9 @@ from langgraph.prebuilt import create_react_agent
 from langchain.schema import HumanMessage, SystemMessage
 
 from ..tools import CodeReaderTool
+from ..tools.project_analysis_utils import (
+    find_code_files, read_json_state, write_json_state, append_bug_to_csv, generate_md_report, segment_file
+)
 
 
 class BugFinderAgent:
@@ -249,3 +252,128 @@ Sé específico y detallado en tu análisis."""
             results.append(result)
         
         return results 
+
+    def analyze_project(self, project_path: str, 
+                       state_path: str = None, 
+                       csv_path: str = None, 
+                       md_path: str = None, 
+                       max_lines_per_segment: int = 200) -> Dict[str, Any]:
+        """
+        Analiza recursivamente todos los archivos de código de un proyecto, persiste el estado y genera reportes.
+        
+        Este método recorre todos los archivos de código válidos en la ruta indicada, analiza cada uno (segmentando si es necesario), registra los bugs encontrados en un archivo .csv, guarda el estado del análisis en un archivo .json para permitir reanudación, y genera un reporte final en .md con el resumen y detalle de bugs.
+        
+        @author Fabian Silva <fabian.silva@consulti.ec>
+        @version 1.0
+        
+        @param project_path Ruta raíz del proyecto a analizar.
+        @param state_path Ruta al archivo .json de estado (opcional, por defecto en la raíz del proyecto).
+        @param csv_path Ruta al archivo .csv de bugs (opcional, por defecto en la raíz del proyecto).
+        @param md_path Ruta al archivo .md de reporte (opcional, por defecto en la raíz del proyecto).
+        @param max_lines_per_segment Máximo de líneas por segmento de archivo a analizar (para evitar sobrepasar la ventana de contexto).
+        @return Diccionario con resumen del análisis y rutas de los archivos de reporte.
+        @throws Exception Si ocurre un error grave durante el análisis.
+        """
+        import datetime
+        import re
+        
+        if state_path is None:
+            state_path = os.path.join(project_path, 'bug_finder_state.json')
+        if csv_path is None:
+            csv_path = os.path.join(project_path, 'bug_finder_bugs.csv')
+        if md_path is None:
+            md_path = os.path.join(project_path, 'bug_finder_report.md')
+        
+        # Leer estado previo o inicializar
+        state = read_json_state(state_path)
+        proyecto = os.path.basename(os.path.abspath(project_path))
+        analizados = set(state.get('analizados', []))
+        pendientes = set(state.get('pendientes', []))
+        bugs = state.get('bugs', [])
+        
+        # Listar archivos válidos
+        all_files = set(find_code_files(project_path))
+        if not pendientes:
+            pendientes = all_files - analizados
+        else:
+            pendientes = set(pendientes)
+        
+        # Analizar cada archivo pendiente
+        for file_path in list(pendientes):
+            try:
+                # Segmentar si es grande
+                segments = segment_file(file_path, max_lines=max_lines_per_segment)
+                for idx, segment in enumerate(segments):
+                    # Analizar segmento
+                    user_message = self.user_prompt.format(file_path=file_path)
+                    # Adjuntar el segmento al mensaje
+                    prompt = f"{user_message}\n\n---\n\n{segment}"
+                    result = self.agent.invoke({
+                        "messages": [
+                            {"role": "user", "content": prompt}
+                        ]
+                    })
+                    # Extraer análisis
+                    if "messages" in result and result["messages"]:
+                        last_message = result["messages"][-1]
+                        if hasattr(last_message, 'content'):
+                            analysis_content = last_message.content
+                        elif isinstance(last_message, dict) and "content" in last_message:
+                            analysis_content = last_message["content"]
+                        else:
+                            analysis_content = str(last_message)
+                    else:
+                        analysis_content = str(result)
+                    # Parsear bugs del análisis (usando regex simple por ahora)
+                    bug_pattern = re.compile(r"BUG #[0-9]+.*?Tipo: (.*?)\nLínea: (.*?)\nDescripción: (.*?)\nSeveridad: (.*?)\nSugerencia: (.*?)\n", re.DOTALL)
+                    for match in bug_pattern.finditer(analysis_content):
+                        tipo, linea, descripcion, severidad, sugerencia = match.groups()
+                        bug = {
+                            "proyecto": proyecto,
+                            "archivo": file_path,
+                            "linea": linea.strip(),
+                            "tipo": tipo.strip(),
+                            "severidad": severidad.strip(),
+                            "descripcion": descripcion.strip(),
+                            "sugerencia": sugerencia.strip(),
+                            "fecha": datetime.date.today().isoformat()
+                        }
+                        append_bug_to_csv(csv_path, bug, header=["proyecto","archivo","linea","tipo","severidad","descripcion","sugerencia","fecha"])
+                        bugs.append(bug)
+                # Marcar como analizado
+                analizados.add(file_path)
+                pendientes.remove(file_path)
+                # Guardar estado tras cada archivo
+                write_json_state(state_path, {
+                    "proyecto": proyecto,
+                    "analizados": list(analizados),
+                    "pendientes": list(pendientes),
+                    "bugs": bugs
+                })
+            except Exception as e:
+                # Si falla, dejar pendiente y continuar
+                continue
+        # Resumen para el reporte
+        total = len(bugs)
+        alta = sum(1 for b in bugs if b.get('severidad','').upper() == 'ALTA')
+        media = sum(1 for b in bugs if b.get('severidad','').upper() == 'MEDIA')
+        baja = sum(1 for b in bugs if b.get('severidad','').upper() == 'BAJA')
+        summary = {
+            "proyecto": proyecto,
+            "total": total,
+            "alta": alta,
+            "media": media,
+            "baja": baja
+        }
+        generate_md_report(md_path, summary, bugs)
+        return {
+            "success": True,
+            "proyecto": proyecto,
+            "total_bugs": total,
+            "alta": alta,
+            "media": media,
+            "baja": baja,
+            "csv_path": csv_path,
+            "md_path": md_path,
+            "state_path": state_path
+        } 

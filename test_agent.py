@@ -106,6 +106,40 @@ def test_error_handling():
     print()
 
 
+def test_analyze_project():
+    """
+    Prueba básica del análisis recursivo de proyecto completo.
+    """
+    import tempfile
+    import shutil
+    import os
+    from src.agent.bug_finder_agent import BugFinderAgent
+    # Crear un proyecto de ejemplo
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Crear archivos de código
+        py_file = os.path.join(tmpdir, 'a.py')
+        with open(py_file, 'w', encoding='utf-8') as f:
+            f.write('def foo():\n    return 1\n')
+        js_file = os.path.join(tmpdir, 'b.js')
+        with open(js_file, 'w', encoding='utf-8') as f:
+            f.write('function bar() { return 2; }\n')
+        # Instanciar el agente
+        agent = BugFinderAgent()
+        result = agent.analyze_project(tmpdir, max_lines_per_segment=10)
+        # Verificar archivos de salida
+        assert result['success']
+        assert os.path.exists(result['csv_path'])
+        assert os.path.exists(result['md_path'])
+        assert os.path.exists(result['state_path'])
+        # Leer el estado
+        import json
+        with open(result['state_path'], 'r', encoding='utf-8') as f:
+            state = json.load(f)
+        assert 'analizados' in state and len(state['analizados']) >= 2
+        assert 'bugs' in state
+        print('Análisis de proyecto ejecutado correctamente.')
+
+
 def main():
     """
     Función principal del script de prueba.
