@@ -19,12 +19,12 @@ Este proyecto es un **POC (Proof of Concept)** para un agente inteligente capaz 
   - Problemas de mantenibilidad (código duplicado, funciones largas, falta de documentación, etc.).
   - Errores específicos por lenguaje (por ejemplo, indentación en Python, NullPointerException en Java, memory leaks en C/C++).
 
-- [PENDIENTE] Se requiere que dada una ruta de un proyecto analice los archivos de todo el proyecto en busca de bugs.
-- [PENDIENTE] Para evitar que la IA lea en una sola sesión todos los archivos y no sobrepase la ventana de contexto, dividir el análisis en trozos, puede ser por archivo o por cantidad de palabras.
-- [PENDIENTE] En el caso de que se quede a la mitad del análisis, el sistema debe crear un archivo donde guarde el estado de los archivos analizados y los que faltan por analizar, para poder continuar si se le pasa la misma ruta del proyecto.
-- [PENDIENTE] Por cada bug encontrado o en cada revisión, ir actualizando un archivo con los bugs encontrados con detalles del proyecto, archivo, y otros campos que se usan en el reporte.
-- [PENDIENTE] Para los archivos de reporte y estado, analizar cuál conviene para esta primera POC: pueden ser .md o mejor .csv u otro formato. Por el momento manejarlo así; luego se puede optar por algo más robusto como una API o integrar BD.
-- [PENDIENTE] Estos archivos servirán de contexto para que la IA pueda realizar mejores análisis.
+- [HECHO] Se requiere que dada una ruta de un proyecto analice los archivos de todo el proyecto en busca de bugs.
+- [HECHO] Para evitar que la IA lea en una sola sesión todos los archivos y no sobrepase la ventana de contexto, dividir el análisis en trozos, puede ser por archivo o por cantidad de palabras.
+- [HECHO] En el caso de que se quede a la mitad del análisis, el sistema debe crear un archivo donde guarde el estado de los archivos analizados y los que faltan por analizar, para poder continuar si se le pasa la misma ruta del proyecto.
+- [HECHO] Por cada bug encontrado o en cada revisión, ir actualizando un archivo con los bugs encontrados con detalles del proyecto, archivo, y otros campos que se usan en el reporte.
+- [HECHO] Para los archivos de reporte y estado, analizar cuál conviene para esta primera POC: pueden ser .md o mejor .csv u otro formato. Por el momento manejarlo así; luego se puede optar por algo más robusto como una API o integrar BD.
+- [HECHO] Estos archivos servirán de contexto para que la IA pueda realizar mejores análisis.
 
 ---
 
@@ -92,6 +92,29 @@ Esto permite flexibilidad, facilidad de uso y migración futura a sistemas más 
 
 ---
 
+## 2.6. Exclusión de carpetas y archivos irrelevantes
+
+El análisis de proyectos **debe omitir** carpetas y archivos que no aportan valor al análisis de bugs del código fuente propio, tales como dependencias, entornos virtuales, cachés, binarios, archivos de control de versiones, etc.
+
+### a) Carpetas/archivos a omitir por defecto
+
+- **Python:** `venv/`, `.venv/`, `env/`, `.env/`, `__pycache__/`, `.pytest_cache/`, `.mypy_cache/`, `.tox/`, `.coverage`, `.eggs/`, `build/`, `dist/`, `*.pyc`, `*.pyo`, `*.egg-info/`
+- **Node.js/JS/TS:** `node_modules/`, `dist/`, `build/`, `coverage/`, `.next/`, `.nuxt/`, `.angular/`, `.cache/`, `*.log`, `*.tsbuildinfo`
+- **Java:** `target/`, `out/`, `.gradle/`, `.idea/`, `.settings/`, `.classpath`, `.project`, `*.class`, `*.jar`, `*.war`, `*.ear`
+- **General:** `.git/`, `.svn/`, `.hg/`, `.DS_Store`, `Thumbs.db`, `desktop.ini`, `logs/`, `tmp/`, `temp/`, `cache/`, `*.exe`, `*.dll`, `*.so`, `*.bin`, `*.o`, `*.a`, `*.lib`
+
+### b) Estrategia de exclusión
+
+- La lista de exclusión será configurable por parámetro en el método de análisis.
+- Por defecto, se omitirán los patrones más comunes según el stack detectado.
+- En el futuro, se podrá soportar un archivo `.bugfinderignore` para personalización avanzada.
+
+### c) Justificación
+
+Esto evita analizar miles de archivos irrelevantes, mejora el rendimiento, reduce el ruido y el consumo de recursos/API.
+
+---
+
 ## 3. Requerimientos Técnicos
 
 ### 3.1. Dependencias
@@ -147,14 +170,14 @@ print(resultado["analysis"])
 
 ---
 
-## 7. Requerimientos Funcionales Pendientes y Sugerencias
+## 7. Requerimientos Funcionales y Sugerencias
 
-- [PENDIENTE] Implementar análisis recursivo de proyectos completos a partir de una ruta.
-- [PENDIENTE] Implementar segmentación del análisis para no sobrepasar la ventana de contexto del modelo.
-- [PENDIENTE] Persistencia del estado de análisis para reanudar procesos interrumpidos.
-- [PENDIENTE] Registro incremental de bugs encontrados en archivos de reporte.
-- [PENDIENTE] Definir y documentar el formato de los archivos de estado y reporte (.md, .csv, .json).
-- [PENDIENTE] Utilizar los archivos de reporte/estado como contexto para análisis futuros.
+- [HECHO] Implementar análisis recursivo de proyectos completos a partir de una ruta.
+- [HECHO] Implementar segmentación del análisis para no sobrepasar la ventana de contexto del modelo.
+- [HECHO] Persistencia del estado de análisis para reanudar procesos interrumpidos.
+- [HECHO] Registro incremental de bugs encontrados en archivos de reporte.
+- [HECHO] Definir y documentar el formato de los archivos de estado y reporte (.md, .csv, .json).
+- [HECHO] Utilizar los archivos de reporte/estado como contexto para análisis futuros.
 
 ### Sugerencias adicionales:
 - [ANÁLISIS] Considerar la integración futura con una base de datos o API para gestión de reportes y estados.

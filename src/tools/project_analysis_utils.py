@@ -2,27 +2,60 @@ import os
 import json
 import csv
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
+import fnmatch
 
 VALID_EXTENSIONS = {'.py', '.js', '.ts', '.java', '.cpp', '.c', '.sql'}
 
+# Exclusiones por defecto (pueden ampliarse por parámetro)
+DEFAULT_EXCLUDE_DIRS = {
+    '.git', '.svn', '.hg',
+    'venv', '.venv', 'env', '.env',
+    '__pycache__', '.pytest_cache', '.mypy_cache', '.tox', '.coverage', '.eggs',
+    'build', 'dist', 'node_modules', 'coverage', '.next', '.nuxt', '.angular', '.cache',
+    'target', 'out', '.gradle', '.idea', '.settings', 'logs', 'tmp', 'temp', 'cache'
+}
+DEFAULT_EXCLUDE_PATTERNS = [
+    '*.pyc', '*.pyo', '*.egg-info', '*.log', '*.tsbuildinfo', '*.class', '*.jar', '*.war', '*.ear',
+    '*.exe', '*.dll', '*.so', '*.bin', '*.o', '*.a', '*.lib', '*.DS_Store', 'Thumbs.db', 'desktop.ini'
+]
 
-def find_code_files(project_path: str, exts: Optional[List[str]] = None) -> List[str]:
+def find_code_files(
+    project_path: str,
+    exts: Optional[List[str]] = None,
+    exclude_dirs: Optional[Set[str]] = None,
+    exclude_patterns: Optional[List[str]] = None
+) -> List[str]:
     """
-    Recorre recursivamente el proyecto y retorna una lista de archivos de código válidos.
+    Recorre recursivamente el proyecto y retorna una lista de archivos de código válidos,
+    omitiendo carpetas y archivos irrelevantes según patrones por defecto y configurables.
     
     @author Fabian Silva <fabian.silva@consulti.ec>
-    @version 1.0
+    @version 1.1
     
     @param project_path Ruta raíz del proyecto
     @param exts Lista de extensiones válidas (opcional)
+    @param exclude_dirs Conjunto de nombres de carpetas a excluir (opcional)
+    @param exclude_patterns Lista de patrones de archivos a excluir (opcional)
     @return Lista de rutas de archivos de código
+    
+    Nota: En el futuro se podrá leer exclusiones desde un archivo .bugfinderignore
     """
     if exts is None:
         exts = list(VALID_EXTENSIONS)
+    if exclude_dirs is None:
+        exclude_dirs = set(DEFAULT_EXCLUDE_DIRS)
+    if exclude_patterns is None:
+        exclude_patterns = list(DEFAULT_EXCLUDE_PATTERNS)
     code_files = []
-    for root, _, files in os.walk(project_path):
+    for root, dirs, files in os.walk(project_path):
+        # Excluir carpetas
+        dirs[:] = [d for d in dirs if d not in exclude_dirs]
         for file in files:
+            # Excluir por patrón
+            if any(fnmatch.fnmatch(file, pat) for pat in exclude_patterns):
+                continue
+            # Incluir solo extensiones válidas
             if any(file.endswith(ext) for ext in exts):
                 code_files.append(os.path.join(root, file))
     return code_files

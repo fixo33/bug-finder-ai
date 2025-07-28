@@ -153,6 +153,44 @@ def test_project_analysis_resume():
         print("✅ Reanudación de análisis funcionando correctamente")
 
 
+def test_exclusion_of_irrelevant_dirs():
+    """
+    Verifica que archivos en carpetas excluidas (venv, node_modules, etc.) no se analizan.
+    """
+    print("🧪 Probando exclusión de carpetas irrelevantes...")
+    import tempfile
+    import os
+    from src.agent.bug_finder_agent import BugFinderAgent
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Crear carpetas irrelevantes y archivos dentro
+        venv_dir = os.path.join(tmpdir, 'venv')
+        os.makedirs(venv_dir)
+        py_in_venv = os.path.join(venv_dir, 'should_not_analyze.py')
+        with open(py_in_venv, 'w', encoding='utf-8') as f:
+            f.write('def foo():\n    return 42\n')
+        node_modules_dir = os.path.join(tmpdir, 'node_modules')
+        os.makedirs(node_modules_dir)
+        js_in_node = os.path.join(node_modules_dir, 'should_not_analyze.js')
+        with open(js_in_node, 'w', encoding='utf-8') as f:
+            f.write('function bar() { return 99; }\n')
+        # Crear archivo válido en raíz
+        main_py = os.path.join(tmpdir, 'main.py')
+        with open(main_py, 'w', encoding='utf-8') as f:
+            f.write('def main():\n    return 1\n')
+        # Analizar proyecto
+        agent = BugFinderAgent()
+        result = agent.analyze_project(tmpdir)
+        # Verificar que solo main.py fue analizado
+        import json
+        with open(result['state_path'], 'r', encoding='utf-8') as f:
+            state = json.load(f)
+        analizados = set(os.path.basename(p) for p in state['analizados'])
+        assert 'main.py' in analizados
+        assert 'should_not_analyze.py' not in analizados
+        assert 'should_not_analyze.js' not in analizados
+        print('✅ Exclusión de carpetas irrelevantes verificada.')
+
+
 def main():
     """
     Ejecuta todas las pruebas de análisis de proyectos.
@@ -164,6 +202,8 @@ def main():
         test_project_analysis_with_files()
         print()
         test_project_analysis_resume()
+        print()
+        test_exclusion_of_irrelevant_dirs()
         print()
         print("🎉 Todas las pruebas de análisis de proyectos pasaron exitosamente!")
         

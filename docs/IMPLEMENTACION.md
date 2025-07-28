@@ -15,8 +15,17 @@ Este documento detalla el **cómo** se implementarán los requerimientos definid
 
 ## 1. Estrategia general de análisis
 - Recorrido recursivo de carpetas a partir de una ruta de proyecto.
+- **Omisión automática de carpetas y archivos irrelevantes** (dependencias, entornos virtuales, cachés, binarios, control de versiones, etc.) según la tecnología detectada (Python, Node.js, Java, etc.).
 - Segmentación del análisis para no sobrepasar la ventana de contexto del modelo (por archivo o por bloques de líneas/palabras).
 - Manejo de interrupciones y reanudación del análisis.
+
+### Ejemplo de exclusión:
+- Python: `venv/`, `.venv/`, `__pycache__/`, `*.pyc`, `build/`, `dist/`
+- Node.js: `node_modules/`, `dist/`, `build/`, `*.log`
+- Java: `target/`, `*.class`, `.gradle/`
+- General: `.git/`, `.DS_Store`, `logs/`, `tmp/`, archivos binarios
+
+La lista de exclusión es configurable y puede ampliarse en el futuro (por parámetro o archivo `.bugfinderignore`).
 
 ## 2. Persistencia de resultados y estado
 - Uso de archivos `.csv` para el registro incremental de bugs y progreso.

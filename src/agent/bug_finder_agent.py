@@ -6,7 +6,7 @@ código fuente y detectar posibles bugs, errores y problemas de calidad.
 """
 
 import os
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional, Set
 from langchain.chat_models import init_chat_model
 from langgraph.prebuilt import create_react_agent
 from langchain.schema import HumanMessage, SystemMessage
@@ -257,20 +257,25 @@ Sé específico y detallado en tu análisis."""
                        state_path: str = None, 
                        csv_path: str = None, 
                        md_path: str = None, 
-                       max_lines_per_segment: int = 200) -> Dict[str, Any]:
+                       max_lines_per_segment: int = 200,
+                       exclude_dirs: Optional[Set[str]] = None,
+                       exclude_patterns: Optional[List[str]] = None) -> Dict[str, Any]:
         """
         Analiza recursivamente todos los archivos de código de un proyecto, persiste el estado y genera reportes.
         
         Este método recorre todos los archivos de código válidos en la ruta indicada, analiza cada uno (segmentando si es necesario), registra los bugs encontrados en un archivo .csv, guarda el estado del análisis en un archivo .json para permitir reanudación, y genera un reporte final en .md con el resumen y detalle de bugs.
+        Permite excluir carpetas y archivos irrelevantes mediante los parámetros exclude_dirs y exclude_patterns.
         
         @author Fabian Silva <fabian.silva@consulti.ec>
-        @version 1.0
+        @version 1.1
         
         @param project_path Ruta raíz del proyecto a analizar.
         @param state_path Ruta al archivo .json de estado (opcional, por defecto en la raíz del proyecto).
         @param csv_path Ruta al archivo .csv de bugs (opcional, por defecto en la raíz del proyecto).
         @param md_path Ruta al archivo .md de reporte (opcional, por defecto en la raíz del proyecto).
         @param max_lines_per_segment Máximo de líneas por segmento de archivo a analizar (para evitar sobrepasar la ventana de contexto).
+        @param exclude_dirs Conjunto de nombres de carpetas a excluir (opcional).
+        @param exclude_patterns Lista de patrones de archivos a excluir (opcional).
         @return Diccionario con resumen del análisis y rutas de los archivos de reporte.
         @throws Exception Si ocurre un error grave durante el análisis.
         """
@@ -291,8 +296,8 @@ Sé específico y detallado en tu análisis."""
         pendientes = set(state.get('pendientes', []))
         bugs = state.get('bugs', [])
         
-        # Listar archivos válidos
-        all_files = set(find_code_files(project_path))
+        # Listar archivos válidos (aplicando exclusión)
+        all_files = set(find_code_files(project_path, exclude_dirs=exclude_dirs, exclude_patterns=exclude_patterns))
         if not pendientes:
             pendientes = all_files - analizados
         else:
