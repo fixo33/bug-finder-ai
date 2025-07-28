@@ -18,7 +18,7 @@ Este documento describe los flujos actuales y los nuevos flujos propuestos para 
 flowchart TD
     A[Inicio] --> B[Usuario indica archivo a analizar]
     B --> C[Se crea instancia de BugFinderAgent]
-    C --> D[Se llama a analyze_file(file_path)]
+    C --> D[Se llama a analyze_file]
     D --> E{¿Existe el archivo?}
     E -- No --> F[Retornar error: archivo no existe]
     E -- Sí --> G[Se lee el archivo con CodeReaderTool]
@@ -44,9 +44,9 @@ flowchart TD
 flowchart TD
     A[Inicio] --> B[Usuario indica lista de archivos]
     B --> C[Se crea instancia de BugFinderAgent]
-    C --> D[Se llama a analyze_multiple_files(file_paths)]
-    D --> E[Para cada archivo en la lista:]
-    E --> F[Se llama a analyze_file(file_path)]
+    C --> D[Se llama a analyze_multiple_files]
+    D --> E[Para cada archivo en la lista]
+    E --> F[Se llama a analyze_file]
     F --> G{¿Existe el archivo?}
     G -- No --> H[Agregar error a resultados]
     G -- Sí --> I[Se lee el archivo con CodeReaderTool]
@@ -72,16 +72,16 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[Inicio] --> B[Usuario indica ruta de proyecto]
-    B --> C[Se llama a analyze_project(project_path)]
+    B --> C[Se llama a analyze_project]
     C --> D[Se configuran rutas de archivos de estado]
     D --> E[Se lee archivo de estado .json existente]
-    E --> F[Se listan todos los archivos de código válidos<br/>find_code_files() con exclusiones]
+    E --> F[Se listan archivos de código válidos con exclusiones]
     F --> G[Se inicializan listas: analizados, pendientes, bugs]
-    G --> H[Para cada archivo pendiente:]
+    G --> H[Para cada archivo pendiente]
     H --> I{¿Archivo es muy grande?}
-    I -- Sí --> J[Se segmenta el archivo<br/>segment_file()]
+    I -- Sí --> J[Se segmenta el archivo]
     I -- No --> K[Se procesa archivo completo]
-    J --> L[Para cada segmento:]
+    J --> L[Para cada segmento]
     L --> M[Se lee el segmento con CodeReaderTool]
     M --> N[Se ejecuta el agente con prompt + segmento]
     N --> O[Se extrae análisis del resultado]
