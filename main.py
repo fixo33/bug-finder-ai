@@ -22,7 +22,7 @@ def setup_environment():
     """
     Configura el entorno de ejecución.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @throws SystemExit Si no se puede configurar el entorno correctamente
@@ -42,7 +42,7 @@ def validate_project_path(project_path: str) -> str:
     """
     Valida que la ruta del proyecto sea válida.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @param project_path Ruta al proyecto a validar
@@ -69,7 +69,7 @@ def print_analysis_results(results: dict):
     """
     Imprime los resultados del análisis de forma organizada.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @param results Diccionario con los resultados del análisis
@@ -110,7 +110,7 @@ def main():
     """
     Función principal del script.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     # Configurar el parser de argumentos

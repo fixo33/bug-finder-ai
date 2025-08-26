@@ -14,7 +14,7 @@ def analyze_file_dynamically(file_path: str):
     """
     Analiza un archivo especificado dinámicamente.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @param file_path Ruta al archivo a analizar
@@ -60,7 +60,7 @@ def analyze_multiple_files(file_paths: list):
     """
     Analiza múltiples archivos especificados.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @param file_paths Lista de rutas a archivos
@@ -106,7 +106,7 @@ def find_code_files_in_directory(directory: str, extensions: list = None):
     """
     Encuentra archivos de código en un directorio.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @param directory Directorio a buscar
@@ -138,7 +138,7 @@ def main():
     """
     Función principal con ejemplos de uso.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("🚀 EJEMPLO DE USO DEL AGENTE DE DETECCIÓN DE BUGS")

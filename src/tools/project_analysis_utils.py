@@ -30,7 +30,7 @@ def find_code_files(
     Recorre recursivamente el proyecto y retorna una lista de archivos de código válidos,
     omitiendo carpetas y archivos irrelevantes según patrones por defecto y configurables.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.1
     
     @param project_path Ruta raíz del proyecto

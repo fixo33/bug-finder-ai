@@ -12,7 +12,7 @@ def test_code_reader():
     """
     Prueba la herramienta de lectura de código con diferentes archivos.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     # Crear instancia de la herramienta
@@ -58,7 +58,7 @@ def test_supported_extensions():
     """
     Muestra las extensiones de archivos soportadas.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     code_reader = CodeReaderTool()

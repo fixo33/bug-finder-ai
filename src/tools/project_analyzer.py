@@ -46,7 +46,7 @@ class ProjectStructureTool(BaseTool):
         """
         Ejecuta el comando tree para obtener la estructura del proyecto.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param project_path Ruta al directorio del proyecto
@@ -85,7 +85,7 @@ class ProjectStructureTool(BaseTool):
         """
         Genera una estructura de árbol alternativa cuando tree no está disponible.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param project_path Ruta al directorio del proyecto
@@ -138,7 +138,7 @@ class FileReaderTool(BaseTool):
         """
         Lee el contenido de un archivo específico.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param file_path Ruta completa al archivo a leer
@@ -190,7 +190,7 @@ class ProjectFileFinderTool(BaseTool):
         """
         Busca archivos importantes en el proyecto.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param project_path Ruta al directorio del proyecto

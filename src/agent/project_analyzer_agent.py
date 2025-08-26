@@ -54,7 +54,7 @@ class ProjectAnalyzerAgent:
         """
         Inicializa el agente de análisis de proyectos.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param openai_api_key Clave de API de OpenAI (opcional, puede usar variable de entorno)
@@ -89,7 +89,7 @@ class ProjectAnalyzerAgent:
         """
         Construye el flujo de trabajo del agente usando LangGraph.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @return Grafo de estado que define el flujo del agente
@@ -127,7 +127,7 @@ class ProjectAnalyzerAgent:
         """
         Analiza la estructura del proyecto usando la herramienta correspondiente.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param state Estado actual del agente
@@ -158,7 +158,7 @@ class ProjectAnalyzerAgent:
         """
         Busca archivos importantes en el proyecto.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param state Estado actual del agente
@@ -189,7 +189,7 @@ class ProjectAnalyzerAgent:
         """
         Lee un archivo de muestra del proyecto para análisis.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param state Estado actual del agente
@@ -236,7 +236,7 @@ class ProjectAnalyzerAgent:
         """
         Genera un análisis final del proyecto basado en toda la información recopilada.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param state Estado actual del agente
@@ -293,7 +293,7 @@ class ProjectAnalyzerAgent:
         """
         Determina si el agente debe continuar usando herramientas.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param state Estado actual del agente
@@ -306,7 +306,7 @@ class ProjectAnalyzerAgent:
         """
         Analiza un proyecto completo y devuelve los resultados.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param project_path Ruta al directorio del proyecto a analizar

@@ -368,7 +368,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 👨‍💻 Autor
 
-**Fabian Silva** - [fabian.silva@consulti.ec](mailto:fabian.silva@consulti.ec)
+**Fabian Silva** - [devawsoftware@gmail.com](mailto:devawsoftware@gmail.com)
 
 ## 🙏 Agradecimientos
 

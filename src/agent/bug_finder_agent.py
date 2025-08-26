@@ -31,7 +31,7 @@ class BugFinderAgent:
         """
         Inicializa el agente de detección de bugs.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param model_name Nombre del modelo de IA a utilizar
@@ -67,7 +67,7 @@ class BugFinderAgent:
         """
         Obtiene el prompt del sistema para el agente de detección de bugs.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @return Prompt del sistema configurado
@@ -163,7 +163,7 @@ Recuerda: Tu objetivo es ayudar a mejorar la calidad del código y prevenir erro
         """
         Obtiene el prompt del usuario para solicitar análisis de código.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @return Prompt del usuario configurado
@@ -185,7 +185,7 @@ Sé específico y detallado en tu análisis."""
         """
         Analiza un archivo de código en busca de bugs.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param file_path Ruta al archivo de código a analizar
@@ -239,7 +239,7 @@ Sé específico y detallado en tu análisis."""
         """
         Analiza múltiples archivos de código en busca de bugs.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param file_paths Lista de rutas a archivos de código
@@ -266,7 +266,7 @@ Sé específico y detallado en tu análisis."""
         Este método recorre todos los archivos de código válidos en la ruta indicada, analiza cada uno (segmentando si es necesario), registra los bugs encontrados en un archivo .csv, guarda el estado del análisis en un archivo .json para permitir reanudación, y genera un reporte final en .md con el resumen y detalle de bugs.
         Permite excluir carpetas y archivos irrelevantes mediante los parámetros exclude_dirs y exclude_patterns.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.1
         
         @param project_path Ruta raíz del proyecto a analizar.

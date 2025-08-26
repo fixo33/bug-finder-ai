@@ -11,7 +11,7 @@ def main():
     """
     Función principal para ejecutar el agente de detección de bugs.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     # Ruta estática del archivo a analizar (puedes cambiarla según necesites)

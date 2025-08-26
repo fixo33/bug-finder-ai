@@ -24,7 +24,7 @@ def test_project_structure_tool():
     """
     Prueba la herramienta de estructura del proyecto.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("🧪 Probando ProjectStructureTool...")
@@ -44,7 +44,7 @@ def test_file_finder_tool():
     """
     Prueba la herramienta de búsqueda de archivos.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("🧪 Probando ProjectFileFinderTool...")
@@ -64,7 +64,7 @@ def test_file_reader_tool():
     """
     Prueba la herramienta de lectura de archivos.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("🧪 Probando FileReaderTool...")
@@ -88,7 +88,7 @@ def test_error_handling():
     """
     Prueba el manejo de errores de las herramientas.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("🧪 Probando manejo de errores...")
@@ -144,7 +144,7 @@ def main():
     """
     Función principal del script de prueba.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("🚀 Iniciando pruebas del agente de análisis de proyectos...")

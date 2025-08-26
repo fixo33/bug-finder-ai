@@ -17,7 +17,7 @@ def run_command(command: str, description: str) -> bool:
     """
     Ejecuta un comando del sistema y maneja errores.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @param command Comando a ejecutar
@@ -42,7 +42,7 @@ def check_python_version():
     """
     Verifica que la versión de Python sea compatible.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @return True si la versión es compatible, False en caso contrario
@@ -60,7 +60,7 @@ def create_virtual_environment():
     """
     Crea el entorno virtual de Python.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @return True si se creó exitosamente, False en caso contrario
@@ -85,7 +85,7 @@ def install_dependencies():
     """
     Instala las dependencias del proyecto.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @return True si se instalaron exitosamente, False en caso contrario
@@ -103,7 +103,7 @@ def setup_environment_file():
     """
     Configura el archivo de variables de entorno.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @return True si se configuró exitosamente, False en caso contrario
@@ -135,7 +135,7 @@ def run_tests():
     """
     Ejecuta las pruebas básicas del agente.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     
     @return True si las pruebas pasaron, False en caso contrario
@@ -155,7 +155,7 @@ def print_activation_instructions():
     """
     Imprime las instrucciones para activar el entorno virtual.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("\n" + "="*60)
@@ -185,7 +185,7 @@ def main():
     """
     Función principal del script de instalación.
     
-    @author Fabian Silva <fabian.silva@consulti.ec>
+    @author Fabian Silva <devawsoftware@gmail.com>
     @version 1.0
     """
     print("🚀 Instalador del Agente de Análisis de Proyectos")

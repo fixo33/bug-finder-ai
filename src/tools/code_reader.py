@@ -80,7 +80,7 @@ class CodeReaderTool(BaseTool):
         """
         Lee y analiza un archivo de código de programación.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param file_path Ruta completa al archivo de código
@@ -138,7 +138,7 @@ class CodeReaderTool(BaseTool):
         """
         Crea un contexto informativo sobre el archivo leído.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param file_name Nombre del archivo
@@ -170,7 +170,7 @@ Es archivo de código: {'Sí' if is_code_file else 'No'}
         """
         Obtiene el nombre del lenguaje de programación basado en la extensión.
         
-        @author Fabian Silva <fabian.silva@consulti.ec>
+        @author Fabian Silva <devawsoftware@gmail.com>
         @version 1.0
         
         @param extension Extensión del archivo
