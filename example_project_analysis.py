@@ -12,7 +12,7 @@ from src.agent.bug_finder_agent import BugFinderAgent
 
 def analyze_current_project():
     """
-    Analiza el proyecto actual (langgraph-agent) como ejemplo.
+    Analiza el proyecto actual (bug-finder-ai) como ejemplo.
     """
     print("🔍 Analizando el proyecto actual...")
     
